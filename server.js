@@ -37,4 +37,8 @@ io.on('connection', socket => {
   });
 });
 
-http.listen(3000, () => console.log('Chat 3000-portda ishga tushdi 🚀'));
+const PORT = process.env.PORT || 3000;
+http.listen(PORT, '0.0.0.0', () => {
+  console.log(`Chat ${PORT}-portda ishga tushdi 🚀`);
+});
+
