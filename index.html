@@ -21,6 +21,7 @@
       --input-bg-light: #f1f3f6;
       --input-border-light: #ddd;
       --button-bg-light: #007bff;
+      --box-shadow-light: 0 10px 30px rgba(0,0,0,0.3);
     }
 
     /* Tungi rejim (Dark Mode) ranglari */
@@ -30,7 +31,7 @@
       --header-bg-dark: #333333;
       --header-color-dark: #e0e0e0;
       --messages-bg-dark: #252525;
-      --msg-me-bg-dark: #5e35b1;
+      --msg-me-bg-dark: #5e35b1; /* Binafsha rang */
       --msg-me-color-dark: #ffffff;
       --msg-other-bg-dark: #3a3a3a;
       --msg-other-color-dark: #e0e0e0;
@@ -38,11 +39,12 @@
       --input-bg-dark: #3a3a3a;
       --input-border-dark: #555;
       --button-bg-dark: #5e35b1;
+      --box-shadow-dark: 0 10px 30px rgba(0,0,0,0.7);
     }
 
-    /* Barcha elementlar uchun o'tish effekti */
-    html, body, .chat-container, .chat-header, #messages, .msg, .chat-input, #msg {
-      transition: background-color 0.4s ease, color 0.4s ease;
+    /* Barcha elementlar uchun yumshoq o'tish effekti (Transition) */
+    html, body, .chat-container, .chat-header, #messages, .msg, .chat-input, #msg, button {
+      transition: background-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
     }
 
     /* Global stillar */
@@ -53,16 +55,18 @@
     
     body {
       font-family: 'Segoe UI', Tahoma, sans-serif;
-      background: var(--site-bg-light); /* Sayt foni o'rnatildi */
+      background: var(--site-bg-light); /* Yorug' rejimdagi fon */
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh; /* Sayt balandligi to'liq bo'lishi uchun */
+      min-height: 100vh;
+      color: var(--msg-other-color-light); /* Asosiy matn rangi */
     }
     
-    /* Tun rejimida butun sayt fonini o'zgartirish */
+    /* Tun rejimida butun sayt fonini va matn rangini o'zgartirish */
     [data-theme="dark"] body {
-      background: var(--site-bg-dark); /* Tun rejimiga o'tganda fon qorayadi */
+      background: var(--site-bg-dark); 
+      color: var(--msg-other-color-dark);
     }
 
     .chat-container {
@@ -71,11 +75,10 @@
       height: 90vh;
       background: var(--container-bg-light);
       border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      box-shadow: var(--box-shadow-light);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      z-index: 10; /* Fon ustida turishi uchun */
     }
 
     .chat-header {
@@ -89,19 +92,120 @@
       align-items: center;
     }
     
-    /* ... (Qolgan CSS stillari avvalgidek qoladi) ... */
+    /* Tema tugmasi */
+    #theme-toggle {
+      background: none;
+      border: none;
+      color: var(--header-color-light);
+      font-size: 1.5em;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.3s;
+    }
 
-    /* Faqat rang o'zgartirish qismlarini takrorlayman */
+    #messages {
+      flex: 1;
+      padding: 12px;
+      overflow-y: auto;
+      background: var(--messages-bg-light);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .msg {
+      padding: 10px 14px;
+      margin: 6px 0;
+      border-radius: 12px;
+      max-width: 75%;
+      word-wrap: break-word;
+      font-size: 1em;
+      animation: fadeIn 0.3s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .me {
+      background: var(--msg-me-bg-light);
+      color: var(--msg-me-color-light);
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+    }
+
+    .other {
+      background: var(--msg-other-bg-light);
+      color: var(--msg-other-color-light);
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+    }
+
+    .system {
+      text-align: center;
+      font-size: 0.85em;
+      color: var(--system-color-light);
+      margin: 10px 0;
+      font-style: italic;
+    }
+
+    .chat-input {
+      display: flex;
+      border-top: 1px solid var(--input-border-light);
+      background: var(--container-bg-light);
+      padding: 8px;
+    }
+
+    #msg {
+      flex: 1;
+      border: none;
+      padding: 14px;
+      font-size: 1em;
+      border-radius: 20px;
+      background: var(--input-bg-light);
+      margin-right: 8px;
+      color: inherit; /* Tun rejimida matn rangi o'zgarishi uchun */
+    }
+
+    #msg:focus {
+      outline: none;
+      background: #e9ecef;
+    }
+
+    button:not(#theme-toggle) {
+      background: var(--button-bg-light);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      font-size: 1.2em;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.1s;
+    }
+
+    button:hover:not(#theme-toggle) {
+      background: #0056b3;
+      transform: translateY(-1px);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === TUN REJIMINI QO'LLASH === */
     [data-theme="dark"] .chat-container {
       background: var(--container-bg-dark);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+      box-shadow: var(--box-shadow-dark);
     }
     [data-theme="dark"] .chat-header {
       background: var(--header-bg-dark);
       color: var(--header-color-dark);
     }
+    [data-theme="dark"] #theme-toggle {
+      color: var(--header-color-dark);
+    }
     [data-theme="dark"] #messages {
       background: var(--messages-bg-dark);
+    }
+    [data-theme="dark"] .msg {
+      box-shadow: 0 2px 4px rgba(255,255,255,0.05); /* Dark mode uchun yengil soya */
     }
     [data-theme="dark"] .me {
       background: var(--msg-me-bg-dark);
@@ -122,27 +226,123 @@
       background: var(--input-bg-dark);
       color: var(--msg-me-color-dark);
     }
+    [data-theme="dark"] #msg:focus {
+      background: var(--msg-other-bg-dark);
+    }
     [data-theme="dark"] button:not(#theme-toggle) {
       background: var(--button-bg-dark);
+    }
+    [data-theme="dark"] button:hover:not(#theme-toggle) {
+      background: #4a2889;
     }
 
     /* 📱 Telefon uchun maxsus moslashuv */
     @media (max-width: 600px) {
       body {
         align-items: stretch;
-        background: var(--site-bg-light); /* Telefonlarda yorug' rejimda fon ishlatilsin */
-      }
-      [data-theme="dark"] body {
-        background: var(--site-bg-dark); /* Telefonlarda tun rejimida fon ishlatilsin */
       }
       .chat-container {
         height: 100vh;
         max-width: 100%;
         border-radius: 0;
-        box-shadow: none;
+        box-shadow: none; 
       }
-      /* ... (Qolgan mobil stillar) ... */
+      .chat-header {
+        font-size: 1em;
+        padding: 12px;
+      }
+      #msg {
+        font-size: 1em;
+        padding: 12px;
+        border-radius: 18px;
+      }
+      button:not(#theme-toggle) {
+        font-size: 1.3em;
+        padding: 0 14px;
+        border-radius: 18px;
+      }
     }
   </style>
 </head>
 <body data-theme="light">
+  <div class="chat-container">
+    <div class="chat-header">
+      <span>💬 Go‘zal Chat</span>
+      <button id="theme-toggle" onclick="toggleTheme()">🌙</button> </div>
+    <div id="messages"></div>
+    <div class="chat-input">
+      <input id="msg" placeholder="Xabar yozing..." autocomplete="off"/>
+      <button onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    let username = localStorage.getItem("chatUsername");
+    const body = document.body;
+    const themeToggle = document.getElementById("theme-toggle");
+
+    // Tungi rejimni boshqarish funksiyasi
+    function toggleTheme() {
+      const currentTheme = body.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+      body.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+
+      // Tugma belgisini o'zgartirish
+      themeToggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
+    }
+
+    // Sahifa yuklanganda oxirgi tema sozlamasini o'rnatish
+    const savedTheme = localStorage.getItem("theme") || "light";
+    body.setAttribute("data-theme", savedTheme);
+    themeToggle.textContent = savedTheme === "dark" ? "☀️" : "🌙";
+
+    // Boshqa socket.io va foydalanuvchi funksiyalari (o'zgarishsiz)
+
+    function askUsername() {
+      username = prompt("Ismingizni kiriting:");
+      if (username) {
+        socket.emit("join", username);
+        localStorage.setItem("chatUsername", username);
+      } else {
+        askUsername();
+      }
+    }
+
+    if (!username) {
+      askUsername();
+    } else {
+      socket.emit("join", username);
+    }
+
+    socket.on("usernameError", msg => {
+      alert(msg);
+      localStorage.removeItem("chatUsername");
+      askUsername();
+    });
+
+    socket.on("message", data => {
+      const div = document.createElement("div");
+      if (data.user === "📢 System") {
+        div.className = "system";
+        div.textContent = data.text;
+      } else {
+        div.className = "msg " + (data.user === username ? "me" : "other");
+        div.textContent = data.user + ": " + data.text;
+      }
+      document.getElementById("messages").appendChild(div);
+      document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+    });
+
+    function sendMessage() {
+      const msg = document.getElementById("msg").value;
+      if (msg.trim() !== "") {
+        socket.emit("message", msg);
+        document.getElementById("msg").value = "";
+      }
+    }
+  </script>
+</body>
+</html>
