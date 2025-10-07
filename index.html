@@ -6,17 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* === RANG PALITRASI (Faqat Qorong'u rejim) === */
+    /* === RANG PALITRASI (Faqat Dark Mode) === */
     :root {
-      --site-bg: #121212; /* Qorong'u sayt foni */
-      --text-color: #ecf0f1; /* Oq matn */
+      --site-bg: #121212; /* Butun sayt foni */
+      --text-color: #ecf0f1; /* Asosiy matn rangi (Oq) */
       --container-bg: #1e1e1e;
-      --header-bg: #8e44ad; /* To'q binafsha sarlavha */
+      --header-bg: #8e44ad; 
       --header-color: #ecf0f1;
       --messages-bg: #252525;
-      --msg-me-bg: #8e44ad; /* Mening xabarim rangi */
+      --msg-me-bg: #8e44ad; 
       --msg-me-color: #ffffff;
-      --msg-other-bg: #3a3a3a; /* Boshqa xabar foni */
+      --msg-other-bg: #3a3a3a; 
       --msg-other-color: var(--text-color); 
       --system-color: #bdc3c7;
       --input-border: #4e5a6a;
@@ -39,10 +39,10 @@
       font-family: 'Inter', sans-serif;
       background: var(--site-bg); /* Doimiy qorong'u fon */
       display: flex;
-      justify-content: center; /* Markazda gorizontal */
-      align-items: center; /* Markazda vertikal */
+      justify-content: center; /* Markazlashuv */
+      align-items: center; /* Markazlashuv */
       min-height: 100vh;
-      color: var(--text-color); /* Asosiy matn rangi */
+      color: var(--text-color); 
     }
     
     .chat-container {
@@ -60,14 +60,14 @@
       animation: popIn 0.5s forwards;
     }
 
-    /* === HEADER STYLES === */
+    /* === HEADER STYLES (Tugmasiz Header) === */
     .chat-header {
       background: var(--header-bg);
       color: var(--header-color);
       padding: 18px 20px;
       font-size: 1.3em;
       font-weight: 600;
-      text-align: center; /* Matn markazda turishi uchun */
+      text-align: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
     
@@ -80,8 +80,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      /* ✨ Yangi xabarlar pastda turishi uchun */
-      justify-content: flex-end; 
+      justify-content: flex-end; /* Xabarlar pastda turishi uchun */
     }
     
     /* Scrollbar ko'rinishi */
@@ -136,7 +135,7 @@
       border-radius: 25px;
       background: var(--msg-other-bg); 
       margin-right: 8px;
-      color: var(--text-color); /* Matn oq bo'lishi kerak */
+      color: var(--text-color); 
     }
 
     #msg:focus {
@@ -205,7 +204,7 @@
     let username = localStorage.getItem("chatUsername");
     const messagesDiv = document.getElementById("messages");
     
-    // Tungi rejimga oid funksiyalar va elementlar olib tashlandi.
+    // Tema almashtirishga oid barcha JavaScript kodlari to'liq olib tashlandi.
 
     // 1. Foydalanuvchi nomini so'rash va ulash
     function askUsername() {
