@@ -8,40 +8,42 @@
   <style>
     /* === RANG PALITRASI (Variables) === */
     :root {
-      /* Yorug' rejim (Light Mode) */
+      /* Yorug' rejim (LIGHT MODE) */
       --site-bg-light: #f0f2f5; 
+      --text-color-light: #2c3e50; /* Qora matn */
       --container-bg-light: #ffffff;
-      --header-bg-light: #6c5ce7; /* Asosiy binafsha rang */
+      --header-bg-light: #6c5ce7; 
       --header-color-light: #ffffff;
       --messages-bg-light: #e8ebf0;
       --msg-me-bg-light: #6c5ce7; 
       --msg-me-color-light: #fff;
       --msg-other-bg-light: #ffffff;
-      --msg-other-color-light: #2c3e50;
+      --msg-other-color-light: var(--text-color-light); 
       --system-color-light: #95a5a6;
       --input-border-light: #dfe4ea;
       --button-bg-light: #6c5ce7;
-      --shadow-color: rgba(0, 0, 0, 0.1);
+      --shadow-color-light: rgba(0, 0, 0, 0.1);
     }
 
-    /* Tungi rejim (Dark Mode) */
+    /* Tungi rejim (DARK MODE) */
     [data-theme="dark"] {
-      --site-bg-dark: #1f252d;
-      --container-bg-dark: #2c3440;
-      --header-bg-dark: #8e44ad; /* To'q binafsha rang */
+      --site-bg-dark: #121212; /* Qorong'u sayt foni */
+      --text-color-dark: #ecf0f1; /* Oq matn */
+      --container-bg-dark: #1e1e1e;
+      --header-bg-dark: #8e44ad; 
       --header-color-dark: #ecf0f1;
-      --messages-bg-dark: #212932;
+      --messages-bg-dark: #252525;
       --msg-me-bg-dark: #8e44ad;
       --msg-me-color-dark: #ffffff;
-      --msg-other-bg-dark: #404b5a;
-      --msg-other-color-dark: #ecf0f1;
+      --msg-other-bg-dark: #3a3a3a;
+      --msg-other-color-dark: var(--text-color-dark); 
       --system-color-dark: #bdc3c7;
       --input-border-dark: #4e5a6a;
       --button-bg-dark: #8e44ad;
-      --shadow-color: rgba(255, 255, 255, 0.05);
+      --shadow-color-dark: rgba(255, 255, 255, 0.05);
     }
 
-    /* Barcha o'tishlar uchun silliqlik */
+    /* Barcha o'tishlar uchun silliqlik (Transition) */
     html, body, .chat-container, .chat-header, #messages, .msg, .chat-input, #msg, button {
       transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
     }
@@ -53,18 +55,20 @@
     }
     
     body {
-      font-family: 'Inter', sans-serif; /* Yangi shrift qo'llanildi */
-      background-color: black 
+      font-family: 'Inter', sans-serif;
+      background: var(--site-bg-light);
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      color: var(--msg-other-color-light);
+      /* ASOSIY MATN RANGI */
+      color: var(--text-color-light); 
     }
     
     [data-theme="dark"] body {
       background: var(--site-bg-dark); 
-      color: var(--msg-other-color-dark);
+      /* TUN REJIMIDA ASOSIY MATN RANGI OQ BO'LADI */
+      color: var(--text-color-dark);
     }
 
     .chat-container {
@@ -73,14 +77,18 @@
       height: 90vh;
       background: var(--container-bg-light);
       border-radius: 20px; 
-      box-shadow: 0 15px 40px var(--shadow-color);
+      box-shadow: 0 15px 40px var(--shadow-color-light);
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      /* Kirish animatsiyasi */
       transform: scale(0.98);
       opacity: 0;
       animation: popIn 0.5s forwards;
+    }
+    
+    [data-theme="dark"] .chat-container {
+      box-shadow: 0 15px 40px var(--shadow-color-dark);
+      background: var(--container-bg-dark);
     }
 
     /* === HEADER STYLES === */
@@ -95,6 +103,10 @@
       align-items: center;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
+    [data-theme="dark"] .chat-header {
+      background: var(--header-bg-dark);
+      color: var(--header-color-dark);
+    }
     
     #theme-toggle {
       background: none;
@@ -103,7 +115,10 @@
       font-size: 1.5em;
       cursor: pointer;
       opacity: 0.9;
-      transition: opacity 0.3s;
+      transition: opacity 0.3s, color 0.5s;
+    }
+    [data-theme="dark"] #theme-toggle {
+        color: var(--header-color-dark);
     }
 
     /* === MESSAGE AREA STYLES === */
@@ -115,21 +130,16 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      /* ✨ Yangi xabarlar pastda turishi uchun muhim qoida */
-      justify-content: flex-end; 
+      justify-content: flex-end; /* Xabarlar oqimini pastga yopishtiradi */
+    }
+    [data-theme="dark"] #messages {
+      background: var(--messages-bg-dark);
     }
     
-    /* Scrollbarning ko'rinishini yaxshilash (Chrome/Safari) */
-    #messages::-webkit-scrollbar {
-        width: 6px;
-    }
-    #messages::-webkit-scrollbar-thumb {
-        background: rgba(0,0,0,0.2);
-        border-radius: 3px;
-    }
-    [data-theme="dark"] #messages::-webkit-scrollbar-thumb {
-        background: rgba(255,255,255,0.2);
-    }
+    /* Scrollbarning ko'rinishini yaxshilash */
+    #messages::-webkit-scrollbar { width: 6px; }
+    #messages::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
+    [data-theme="dark"] #messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); }
 
     .msg {
       padding: 12px 16px;
@@ -138,14 +148,18 @@
       word-wrap: break-word;
       font-size: 0.95em;
       box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-      animation: fadeIn 0.3s ease; /* Xabar kelganda paydo bo'lish animatsiyasi */
+      animation: fadeIn 0.3s ease;
     }
 
     .me {
       background: var(--msg-me-bg-light);
       color: var(--msg-me-color-light);
       margin-left: auto;
-      border-bottom-right-radius: 6px; /* Boshqa burchak yumaloq bo'lmasligi uchun */
+      border-bottom-right-radius: 6px;
+    }
+    [data-theme="dark"] .me {
+      background: var(--msg-me-bg-dark);
+      color: var(--msg-me-color-dark);
     }
 
     .other {
@@ -153,6 +167,10 @@
       color: var(--msg-other-color-light);
       margin-right: auto;
       border-bottom-left-radius: 6px;
+    }
+    [data-theme="dark"] .other {
+      background: var(--msg-other-bg-dark);
+      color: var(--msg-other-color-dark);
     }
     
     .system {
@@ -162,6 +180,9 @@
       margin: 10px 0;
       font-style: italic;
     }
+    [data-theme="dark"] .system {
+      color: var(--system-color-dark);
+    }
 
     /* === INPUT AREA STYLES === */
     .chat-input {
@@ -170,6 +191,10 @@
       background: var(--container-bg-light);
       padding: 10px;
     }
+    [data-theme="dark"] .chat-input {
+      background: var(--container-bg-dark);
+      border-top-color: var(--input-border-dark);
+    }
 
     #msg {
       flex: 1;
@@ -177,15 +202,23 @@
       padding: 12px 18px;
       font-size: 1em;
       border-radius: 25px;
-      background: var(--container-bg-light); /* Konteyner foni kabi */
+      background: var(--container-bg-light); 
       margin-right: 8px;
-      color: inherit;
+      color: inherit; /* Matn rangini inherit qilib, umumiy rangga bog'lash */
+    }
+    [data-theme="dark"] #msg {
+      background: var(--msg-other-bg-dark);
+      border-color: var(--input-border-dark);
     }
 
     #msg:focus {
       outline: none;
       border-color: var(--header-bg-light);
       box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+    }
+    [data-theme="dark"] #msg:focus {
+      border-color: var(--header-bg-dark);
+      box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.3);
     }
 
     button:not(#theme-toggle) {
@@ -199,6 +232,9 @@
       box-shadow: 0 4px 10px rgba(108, 92, 231, 0.3);
       transition: all 0.2s ease;
     }
+    [data-theme="dark"] button:not(#theme-toggle) {
+      background: var(--button-bg-dark);
+    }
 
     button:hover:not(#theme-toggle) {
       background: #5a4ac3;
@@ -206,7 +242,7 @@
       box-shadow: 0 6px 15px rgba(108, 92, 231, 0.4);
     }
 
-    /* === ANIMATIONS === */
+    /* === ANIMATIONS & RESPONSIVE === */
     @keyframes popIn {
       to { opacity: 1; transform: scale(1); }
     }
@@ -215,61 +251,18 @@
         to { opacity: 1; transform: translateY(0); }
     }
     
-    /* === TUN REJIMINI QO'LLASH (Dark Mode Overrides) === */
-    [data-theme="dark"] .chat-container {
-      background: var(--container-bg-dark);
-    }
-    [data-theme="dark"] .chat-header {
-      background: var(--header-bg-dark);
-    }
-    [data-theme="dark"] .msg {
-        box-shadow: 0 1px 3px rgba(255,255,255,0.05);
-    }
-    [data-theme="dark"] .me {
-      background: var(--msg-me-bg-dark);
-    }
-    [data-theme="dark"] .other {
-      background: var(--msg-other-bg-dark);
-    }
-    [data-theme="dark"] .chat-input {
-      background: var(--container-bg-dark);
-      border-top-color: var(--input-border-dark);
-    }
-    [data-theme="dark"] #msg {
-      background: var(--msg-other-bg-dark);
-      border-color: var(--input-border-dark);
-    }
-    [data-theme="dark"] #msg:focus {
-      border-color: var(--header-bg-dark);
-      box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.3);
-    }
-    [data-theme="dark"] button:not(#theme-toggle) {
-      background: var(--button-bg-dark);
-    }
-
-
-    /* 📱 Telefon uchun maxsus moslashuv (Ishlatish uchun eng qulay qismi) */
+    /* 📱 Telefon uchun maxsus moslashuv */
     @media (max-width: 600px) {
       .chat-container {
         height: 100vh;
         max-width: 100%;
         border-radius: 0;
         box-shadow: none;
-        animation: none; /* Telefonlarda animatsiya o'chiriladi */
+        animation: none; 
       }
-      .chat-header {
-        font-size: 1.1em;
-        padding: 15px 15px;
-      }
-      #msg {
-        font-size: 0.95em;
-        padding: 10px 15px;
-        
-      }
-      button:not(#theme-toggle) {
-        font-size: 1.2em;
-        padding: 0 18px;
-      }
+      .chat-header { font-size: 1.1em; padding: 15px 15px; }
+      #msg { font-size: 0.95em; padding: 10px 15px; }
+      button:not(#theme-toggle) { font-size: 1.2em; padding: 0 18px; }
     }
   </style>
 </head>
@@ -301,7 +294,7 @@
       body.setAttribute("data-theme", newTheme);
       localStorage.setItem("theme", newTheme);
 
-      // Tugma belgisini o'zgartirish
+      // Tugma belgisini o'zgartirish (Oy -> Quyosh / Quyosh -> Oy)
       themeToggle.textContent = newTheme === "dark" ? "☀️" : "🌙";
     }
 
@@ -317,7 +310,7 @@
         socket.emit("join", username);
         localStorage.setItem("chatUsername", username);
       } else {
-        askUsername(); // Nom kiritilmasa, qayta so'raydi
+        askUsername();
       }
     }
 
@@ -341,13 +334,12 @@
         div.className = "system";
         div.textContent = data.text;
       } else {
-        // Shaxsiy va Boshqa xabarlarni farqlash
         div.className = "msg " + (data.user === username ? "me" : "other");
         div.textContent = data.user + ": " + data.text;
       }
       messagesDiv.appendChild(div);
       
-      // Avtomatik ravishda eng pastga skroll qilish (eng qulay ishlashi uchun)
+      // Avtomatik ravishda eng pastga skroll qilish
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
 
@@ -358,7 +350,7 @@
       
       if (msg.trim() !== "") {
         socket.emit("message", msg);
-        msgInput.value = ""; // Yuborgandan keyin kiritish maydonini tozalash
+        msgInput.value = ""; 
       }
     }
   </script>
